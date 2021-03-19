@@ -5,15 +5,13 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
-
-  Plug 'maxmellon/vim-jsx-pretty'
-  Plug 'suy/vim-context-commentstring'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-commentary'
+    Plug 'maxmellon/vim-jsx-pretty'
+    Plug 'suy/vim-context-commentstring'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-commentary'
     Plug 'asvetliakov/vim-easymotion'
- 
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+    Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'justinmk/vim-sneak'
     Plug 'unblevable/quick-scope'
@@ -40,8 +38,8 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
     Plug 'liuchengxu/vim-which-key'
     Plug 'neomake/neomake'
     Plug 'https://github.com/vimwiki/vimwiki.git'
-    "   Plug 'epilande/vim-es2015-snippets'
+    Plug 'epilande/vim-es2015-snippets'
     Plug 'epilande/vim-react-snippets'
-    "   Plug 'preservim/nerdtree'
     Plug 'rking/ag.vim'
+    Plug 'norcalli/nvim-colorizer.lua'
 call plug#end()
