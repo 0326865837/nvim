@@ -12,14 +12,10 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'suy/vim-context-commentstring'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'asvetliakov/vim-easymotion'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'justinmk/vim-sneak'
 Plug 'unblevable/quick-scope'
 Plug 'easymotion/vim-easymotion'
@@ -30,28 +26,45 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'francoiscabrol/ranger.vim'
-Plug 'rbgrouleff/bclose.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
+Plug 'francoiscabrol/ranger.vim'
+
+" Plug 'rbgrouleff/bclose.vim'
+Plug 'Chiel92/vim-autoformat'
+
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'voldikss/vim-floaterm'
+
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'APZelos/blamer.nvim'
 Plug 'junegunn/gv.vim'
-Plug 'voldikss/vim-floaterm'
+
+
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vim-which-key'
 Plug 'neomake/neomake'
+
 Plug 'epilande/vim-es2015-snippets'
 Plug 'epilande/vim-react-snippets'
-Plug 'rking/ag.vim'
+Plug 'pangloss/vim-javascript' "JS highlighting
+Plug 'mxw/vim-jsx' "JSX syntax highlighting
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+
 Plug 'ap/vim-css-color'
-Plug 'JulesWang/css.vim' " only necessary if your Vim version < 7.4
 Plug 'cakebaker/scss-syntax.vim'
-Plug 'APZelos/blamer.nvim'
-Plug 'Chiel92/vim-autoformat'
+
+
+Plug 'prettier/vim-prettier', {
+            \ 'do': 'yarn install',
+            \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 call plug#end()
 
 source $HOME/.config/nvim/themes/airline.vim
@@ -107,6 +120,16 @@ set modifiable
 " set noshowmode
 
 
+
+nnoremap <space>n :set nohlsearch!<CR>
+nnoremap <Down>  :resize -2<CR>
+nnoremap <Left>  :vertical resize +2<CR>
+nnoremap <Right> :vertical resize -2<CR>
+nnoremap <Up>    :resize +2<CR>
+
+
+
+
 au BufRead,BufNewFile .eslintrc.json setlocal filetype=json
 au BufRead,BufNewFile .babelrc setlocal filetype=json
 au BufRead,BufNewFile .prettierrc setlocal filetype=json
@@ -154,17 +177,6 @@ let g:fzf_colors =
             \ 'header':  ['fg', 'Comment'] }
 
 
-" bind \ (backward slash) to grep shortcut
-nnoremap <C-k> /<C-R><C-W><CR>
-nnoremap \ :Ag<SPACE>
-
-
-nnoremap <space>n :set nohlsearch!<CR>
-nnoremap <Down>  :resize -2<CR>
-nnoremap <Left>  :vertical resize +2<CR>
-nnoremap <Right> :vertical resize -2<CR>
-nnoremap <Up>    :resize +2<CR>
-
 
 "styled component
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
@@ -193,17 +205,33 @@ let g:coc_global_extensions = [
             \ 'coc-css',
             \ 'coc-cssmodules',
             \ 'coc-explorer',
-            \ 'coc-prettier',
             \ 'coc-json',
             \ 'coc-pairs',
             \ 'coc-emoji',
             \ 'coc-floaterm',
             \ 'coc-sh',
-            \ 'coc-eslint'
+            \ 'coc-eslint',
+            \ 'coc-highlight',
+            \ 'coc-markdownlint',
+            \ 'coc-stylelint',
+            \ 'coc-snippets',
+            \ 'coc-sql',
+            \ 'coc-tailwindcss',
+            \ 'coc-translator',
+            \ 'coc-yank',
+            \ 'coc-emmet'
             \ ]
 
 
-"
+
+"setting for eslint and prettier
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+    let g:coc_global_extensions += ['coc-prettier']
+endif
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+    let g:coc_global_extensions += ['coc-eslint']
+endif
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
@@ -216,55 +244,8 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if exists('*complete_info')
-    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-" nmap <leader>rn <Plug>(coc-rename)
-
-augroup mygroup
-    autocmd!
-    " Setup formatexpr specified filetype(s).
-    " autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    " Update signature help on jump placeholder.
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Add `:Format` command to format current buffer.
-" command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Explorer
 let g:coc_explorer_global_presets = {
@@ -289,22 +270,6 @@ let g:coc_explorer_global_presets = {
 nnoremap <silent> <leader>e :CocCommand explorer<CR>
 " nmap <space>f :CocCommand explorer --preset floatingRightside<CR>
 autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-
-" Snippets
-" Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
-
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
-
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 
 
@@ -370,18 +335,7 @@ highlight GitGutterChange guifg=#fff000 ctermfg=3
 highlight GitGutterDelete guifg=#ff0000 ctermfg=1
 
 
-"sneak
-let g:sneak#label = 1
 
-" case insensitive sneak
-let g:sneak#use_ic_scs = 1
-
-" imediately move tot the next instance of search, if you move the cursor sneak is back to default behavior
-let g:sneak#s_next = 1
-
-" remap so I can use , and ; with f and t
-map gS <Plug>Sneak_,
-map gs <Plug>Sneak_;
 
 " Change the colors
 highlight Sneak guifg=black guibg=#00C7DF ctermfg=black ctermbg=cyan
@@ -456,33 +410,10 @@ nnoremap   <silent>   <F5>   :FloatermKill<CR>
 tnoremap   <silent>   <F5>   <C-\><C-n>:FloatermKill<CR>
 
 
-"rnvimr
-let g:rnvimr_ex_enable = 1
-
-let g:rnvimr_draw_border = 1
-
-" Make Ranger to be hidden after picking a file
-let g:rnvimr_pick_enable = 1
-
-" Make Neovim to wipe the buffers corresponding to the files deleted by Ranger
-let g:rnvimr_bw_enable = 1
-
-" nmap <leader>r :RnvimrToggle<CR>
-
-let g:rnvimr_ranger_cmd = 'ranger --cmd="set column_ratios 1,1"'
-" \ --cmd="set draw_borders separators"'
-
-let g:rnvimr_layout = { 'relative': 'editor',
-            \ 'width': float2nr(round(0.6 * &columns)),
-            \ 'height': float2nr(round(0.6 * &lines)),
-            \ 'col': float2nr(round(0.2 * &columns)),
-            \ 'row': float2nr(round(0.2 * &lines)),
-            \ 'style': 'minimal' }
-
-let g:rnvimr_presets = [
-            \ {'width': 0.800, 'height': 0.800}]
 
 
+
+"WhichKey
 
 " Map leader to which_key
 nnoremap <silent> <leader> :silent <c-u> :silent WhichKey '<Space>'<CR>
@@ -514,34 +445,14 @@ autocmd  FileType which_key set laststatus=0 noshowmode noruler
 let g:which_key_map['/'] = [ ':call Comment()'  , 'comment' ]
 let g:which_key_map['.'] = [ ':e $MYVIMRC'                , 'open init' ]
 let g:which_key_map[';'] = [ ':Commands'                  , 'commands' ]
-let g:which_key_map['='] = [ '<C-W>='                     , 'balance windows' ]
 let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
-let g:which_key_map['c'] = [ ':Codi!!'                    , 'virtual repl']
 let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
 let g:which_key_map['e'] = [ ':CocCommand explorer'       , 'explorer' ]
 let g:which_key_map['f'] = [ ':Files'                     , 'search files' ]
 let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
-let g:which_key_map['q'] = [ 'q'                          , 'quit' ]
-let g:which_key_map['r'] = [ ':RnvimrToggle'              , 'ranger' ]
-let g:which_key_map['S'] = [ ':SSave'                     , 'save session' ]
-let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
 let g:which_key_map['v'] = [ '<C-W>v'                     , 'split right']
-let g:which_key_map['W'] = [ 'w'                          , 'write' ]
-let g:which_key_map['z'] = [ 'Goyo'                       , 'zen' ]
 
 " Group mappings
-
-" a is for actions
-let g:which_key_map.a = {
-            \ 'name' : '+actions' ,
-            \ 'c' : [':ColorizerToggle'        , 'colorizer'],
-            \ 'n' : [':set nonumber!'          , 'line-numbers'],
-            \ 'r' : [':set norelativenumber!'  , 'relative line nums'],
-            \ 's' : [':let @/ = ""'            , 'remove search highlight'],
-            \ 't' : [':FloatermToggle'         , 'terminal'],
-            \ 'v' : [':Vista!!'                , 'tag viewer'],
-            \ }
-
 
 " g is for git
 let g:which_key_map.g = {
@@ -569,27 +480,6 @@ let g:which_key_map.g = {
             \ 'v' : [':GV'                               , 'view commits'],
             \ 'V' : [':GV!'                              , 'view buffer commits'],
             \ }
-
-
-
-" t is for terminal
-let g:which_key_map.t = {
-            \ 'name' : '+terminal' ,
-            \ ';' : [':FloatermNew --wintype=popup --height=6'        , 'terminal'],
-            \ 'f' : [':FloatermNew fzf'                               , 'fzf'],
-            \ 'g' : [':FloatermNew lazygit'                           , 'git'],
-            \ 'd' : [':FloatermNew lazydocker'                        , 'docker'],
-            \ 'n' : [':FloatermNew node'                              , 'node'],
-            \ 'N' : [':FloatermNew nnn'                               , 'nnn'],
-            \ 'p' : [':FloatermNew python'                            , 'python'],
-            \ 'r' : [':FloatermNew ranger'                            , 'ranger'],
-            \ 't' : [':FloatermToggle'                                , 'toggle'],
-            \ 'y' : [':FloatermNew ytop'                              , 'ytop'],
-            \ 's' : [':FloatermNew ncdu'                              , 'ncdu'],
-            \ }
-
-
-
 call which_key#register('<Space>', "g:which_key_map")
 
 
@@ -639,12 +529,56 @@ let g:blamer_prefix = ' > '
 
 
 
-let g:ag_working_path_mode="r"
-
-
-
 
 " auto format
 
 noremap <F6> :Autoformat<CR>
 au BufWrite * :Autoformat
+
+
+" when running at every change you may want to disable quickfix
+"let g:prettier#quickfix_enabled = 0
+
+" autocmd TextChanged *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+" InsertLeave
+
+
+" Max line length that prettier will wrap on: a number or 'auto' (use
+" textwidth).
+" default: 'auto'
+let g:prettier#config#print_width = 'auto'
+
+" number of spaces per indentation level: a number or 'auto' (use
+" softtabstop)
+" default: 'auto'
+let g:prettier#config#tab_width = 'auto'
+
+" use tabs instead of spaces: true, false, or auto (use the expandtab setting).
+" default: 'auto'
+let g:prettier#config#use_tabs = 'auto'
+
+" flow|babylon|typescript|css|less|scss|json|graphql|markdown or empty string
+" (let prettier choose).
+" default: ''
+let g:prettier#config#parser = ''
+
+" cli-override|file-override|prefer-file
+" default: 'file-override'
+let g:prettier#config#config_precedence = 'file-override'
+
+" always|never|preserve
+" default: 'preserve'
+let g:prettier#config#prose_wrap = 'preserve'
+
+" css|strict|ignore
+" default: 'css'
+let g:prettier#config#html_whitespace_sensitivity = 'css'
+
+" false|true
+" default: 'false'
+let g:prettier#config#require_pragma = 'false'
+
+" Define the flavor of line endings
+" lf|crlf|cr|all
+" defaut: 'lf'
+let g:prettier#config#end_of_line = get(g:, 'prettier#config#end_of_line', 'lf')
