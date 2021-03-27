@@ -8,10 +8,10 @@ let airline#extensions#tabline#show_splits = 0
 let airline#extensions#tabline#tabs_label = ''
 
 " Disable tabline close button
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#fnamecollapse = 1
+" let g:airline#extensions#tabline#show_close_button = 1
+" let g:airline#extensions#tabline#show_tab_type = 1
+" let g:airline#extensions#tabline#show_tab_nr = 1
+" let g:airline#extensions#tabline#fnamecollapse = 0
 
 let g:airline#extensions#tabline#buffers_label = ''
 let g:airline#extensions#tabline#tabs_label = ''
@@ -25,7 +25,7 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 
-let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#formatter = 'jsformatter'
 
 
 " Switch to your current theme

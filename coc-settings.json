@@ -38,7 +38,7 @@
   ],
   "coc.preferences.hoverTarget": "float",
 
-   // snippets
+  // snippets
   "snippets.ultisnips.directories": ["UltiSnips", "~/.config/nvim/snips"],
   //"snippets.userSnippetsDirectory": "~/.config/nvim/snips",
 
@@ -47,7 +47,6 @@
     "vue-html": "html",
     "javascript": "javascriptreact"
   },
-
 
   "explorer.width": 30,
   "explorer.buffer.root.template": "[icon & 1] OPEN EDITORS",
@@ -76,6 +75,13 @@
       "filetypes": ["sh"],
       "ignoredRootPaths": ["~"]
     }
-  }
+  },
 
+  "eslint.autoFixOnSave": true,
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
 }

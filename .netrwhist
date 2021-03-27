@@ -1,0 +1,4 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/gungim/Documents/react/project_mern_memories/client/src'
+let g:netrw_dirhist_1='/home/gungim/Documents/react/project_mern_memories/client'
