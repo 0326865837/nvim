@@ -7,8 +7,8 @@
 
 " Always source these
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
@@ -27,9 +27,6 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'dracula/vim', { 'as': 'dracula' }
 
 Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 Plug 'francoiscabrol/ranger.vim'
@@ -54,21 +51,94 @@ Plug 'neomake/neomake'
 Plug 'epilande/vim-es2015-snippets'
 Plug 'epilande/vim-react-snippets'
 Plug 'pangloss/vim-javascript' "JS highlighting
-Plug 'mxw/vim-jsx' "JSX syntax highlighting
+Plug 'jelera/vim-javascript-syntax'
+Plug 'honza/vim-snippets'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'mattn/emmet-vim'
 
 Plug 'ap/vim-css-color'
 Plug 'cakebaker/scss-syntax.vim'
 
+Plug 'prettier/vim-prettier', { 'do': 'yarn install'}
 
-Plug 'prettier/vim-prettier', {
-            \ 'do': 'yarn install',
-            \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'kyoz/purify', { 'rtp': 'vim' }
+Plug 'joshdick/onedark.vim'
 call plug#end()
 
-source $HOME/.config/nvim/themes/airline.vim
 
+
+set whichwrap+=<,>,[,],h,l
+" set history=50
+set mouse=a    "bat con chuot"
+
+set cursorline
+hi CursorLineNR cterm=bold
+augroup CLNRSet
+	autocmd! ColorScheme * hi CursorLine ctermbg=black
+augroup END number
+set guicursor+=n-v-c:blinkon5
+
+if &term =~ "xterm\\|rxvt"
+	" use an orange cursor in insert mode
+	let &t_SI = "\<Esc>]12;orange\x7"
+	" use a red cursor otherwise
+	let &t_EI = "\<Esc>]12;red\x7"
+	silent !echo -ne "\033]12;red\007"
+	" reset cursor when vim exits
+	autocmd VimLeave * silent !echo -ne "\033]112\007"
+	" use \003]12;gray\007 for gnome-terminal and rxvt up to version 9.21
+endif
+
+
+
+
+
+set hidden
+set showcmd
+colorscheme onedark
+syntax on
+set clipboard=unnamedplus
+set autoread
+set autowrite
+
+"encoding
+set encoding=UTF-8 "ho tro mau 256"
+set fileencoding=utf-8
+set fileencodings=utf-8
+set bomb
+set binary
+
+"tab
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+"
+set nobackup
+
+"Viusa setting
+set number
+set ruler
+syntax on
+set relativenumber
+set colorcolumn=0
+
+
+nnoremap <space>n :set nohlsearch!<CR>
+nnoremap <Down>  :resize -2<CR>
+nnoremap <Left>  :vertical resize +2<CR>
+nnoremap <Right> :vertical resize -2<CR>
+nnoremap <Up>    :resize +2<CR>
 
 imap <C-h> <C-w>h
 imap <C-j> <C-w>j
@@ -76,8 +146,6 @@ imap <C-k> <C-w>k
 imap <C-l> <C-w>l
 " g Leader key
 let mapleader=" "
-" let localleader=" "
-nnoremap <Space> <Nop>
 
 " Better indenting
 nnoremap <silent> <TAB> :bnext<CR>
@@ -88,46 +156,19 @@ nnoremap <silent> <C-c> <Esc>
 inoremap <expr> <c-j> ("\<C-n>")
 inoremap <expr> <c-k> ("\<C-p>")
 
-set whichwrap+=<,>,[,],h,l
-set nobackup
-set nowritebackup
-set history=50
-set ruler         " show the cursor position all the time
-set incsearch     " do incremental searching
-set laststatus=2  " luon hien thi dong trang thai
-set autowrite     " Automatically :write before running commands
-set autoindent   "tu dong thut dong"
-set autoread
-set tabstop=2  "chen 2 khoang trang cho 1 dau tab"
-set shiftwidth=2 "Thay đổi số lượng ký tự khoảng trắng được chèn để thụt lề"
-"set showtabline=2
-set expandtab  "chuyen doi tab thanh dau cach"
-set mouse=a    "bat con chuot"
-set colorcolumn=+1
-set relativenumber
-set number           "so dong"
-" set numberwidth=5
-set splitbelow
-set splitright
-set complete+=kspell
-set diffopt+=vertical
-set background=dark
-set encoding=UTF-8 "ho tro mau 256"
-colorscheme dracula
-set clipboard=unnamedplus               " Copy paste between vim and everything else
-
-set modifiable
-" set noshowmode
+"Mappings
+noremap <leader>h :<c-u>split<cr>
+noremap <leader>v :<c-u>vsplit<cr>
 
 
 
-nnoremap <space>n :set nohlsearch!<CR>
-nnoremap <Down>  :resize -2<CR>
-nnoremap <Left>  :vertical resize +2<CR>
-nnoremap <Right> :vertical resize -2<CR>
-nnoremap <Up>    :resize +2<CR>
+" Use tab with text block
+vmap <Tab> >gv
+vmap <S-Tab> <gv
 
 
+" Remove highlight
+map <C-h> :nohl<CR>
 
 
 au BufRead,BufNewFile .eslintrc.json setlocal filetype=json
@@ -139,42 +180,95 @@ au BufRead,BufNewFile .sequelizerc setlocal filetype=javascript
 au BufRead,BufNewFile *.hbs setlocal filetype=html
 
 
-" When the type of shell script is /bin/sh, assume a POSIX-compatible
-" shell for syntax highlighting purposes.
-"let g:is_posix = 1
 
-" Use tab with text block
-vmap <Tab> >gv
-vmap <S-Tab> <gv
 
-" Remove highlight
-map <C-h> :nohl<CR>
+"***********************************************************
+"Custom config
+"***********************************************************
+"javascript
+let g:javascript_enable_domhtmlcss = 1
 
-" fzf
+"vim-javascript
+augroup vimrc-javascript
+	autocmd!
+	autocmd filetype javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4 smartindent
+augroup end
+
+
+"-----------------------vim-airline-----------------------------
+"
+
+
+
+let g:airline#extensions#virtualenv#enabled = 1
+
+
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
+
+if !exists('g:airline_powerline_fonts')
+	let g:airline#extensions#tabline#left_sep = ' '
+	let g:airline#extensions#tabline#left_alt_sep = '|'
+	let g:airline_left_sep          = '▶'
+	let g:airline_left_alt_sep      = '»'
+	let g:airline_right_sep         = '◀'
+	let g:airline_right_alt_sep     = '«'
+	let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+	let g:airline#extensions#readonly#symbol   = '⊘'
+	let g:airline#extensions#linecolumn#prefix = '¶'
+	let g:airline#extensions#paste#symbol      = 'ρ'
+	let g:airline_symbols.linenr    = '␊'
+	let g:airline_symbols.branch    = '⎇'
+	let g:airline_symbols.paste     = 'ρ'
+	let g:airline_symbols.paste     = 'þ'
+	let g:airline_symbols.paste     = '∥'
+	let g:airline_symbols.whitespace = 'ξ'
+else
+	let g:airline#extensions#tabline#left_sep = ''
+	let g:airline#extensions#tabline#left_alt_sep = ''
+	" powerline symbols
+	let g:airline_left_sep = ''
+	let g:airline_left_alt_sep = ''
+	let g:airline_right_sep = ''
+	let g:airline_right_alt_sep = ''
+	let g:airline_symbols.branch = ''
+	let g:airline_symbols.readonly = ''
+	let g:airline_symbols.linenr = ''
+endif
+
+"vim-airline
+let g:airline_theme = 'onedark'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
+
+
+
+
+
+" ---------------------------------fzf---------------------------------
 noremap ` :Files<CR>
 noremap ; :Buffers<CR>
 
 let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
 
-"let $FZF_DEFAULT_OPTS = '--layout=reverse --inline-info'
-"let $FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git/**'"
-"-g '!{node_modules,.git}'
-
-" Customize fzf colors to match your color scheme
 let g:fzf_colors =
-            \ { 'fg':      ['fg', 'Normal'],
-            \ 'bg':      ['bg', 'Normal'],
-            \ 'hl':      ['fg', 'Comment'],
-            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-            \ 'hl+':     ['fg', 'Statement'],
-            \ 'info':    ['fg', 'PreProc'],
-            \ 'border':  ['fg', 'Ignore'],
-            \ 'prompt':  ['fg', 'Conditional'],
-            \ 'pointer': ['fg', 'Exception'],
-            \ 'marker':  ['fg', 'Keyword'],
-            \ 'spinner': ['fg', 'Label'],
-            \ 'header':  ['fg', 'Comment'] }
+			\ { 'fg':      ['fg', 'Normal'],
+			\ 'bg':      ['bg', 'Normal'],
+			\ 'hl':      ['fg', 'Comment'],
+			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+			\ 'hl+':     ['fg', 'Statement'],
+			\ 'info':    ['fg', 'PreProc'],
+			\ 'border':  ['fg', 'Ignore'],
+			\ 'prompt':  ['fg', 'Conditional'],
+			\ 'pointer': ['fg', 'Exception'],
+			\ 'marker':  ['fg', 'Keyword'],
+			\ 'spinner': ['fg', 'Label'],
+			\ 'header':  ['fg', 'Comment'] }
 
 
 
@@ -182,145 +276,114 @@ let g:fzf_colors =
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
-"vim commentary
+"----------------------------vim commentary--------------------
 function! Comment()
-    if (mode() == "n" )
-        execute "Commentary"
-    else
-        execute "'<,'>Commentary"
-    endif
+	if (mode() == "n" )
+		execute "Commentary"
+	else
+		execute "'<,'>Commentary"
+	endif
 endfunction
-vnoremap <silent> <space>/ :call Comment()
+noremap <silent> <leader>/ :call Comment() <CR>
 
 
 
 
-"COC
+"----------------------------COC--------------------------------
 let g:coc_global_extensions = [
-            \ 'coc-snippets',
-            \ 'coc-actions',
-            \ 'coc-lists',
-            \ 'coc-tsserver',
-            \ 'coc-html',
-            \ 'coc-css',
-            \ 'coc-cssmodules',
-            \ 'coc-explorer',
-            \ 'coc-json',
-            \ 'coc-pairs',
-            \ 'coc-emoji',
-            \ 'coc-floaterm',
-            \ 'coc-sh',
-            \ 'coc-eslint',
-            \ 'coc-highlight',
-            \ 'coc-markdownlint',
-            \ 'coc-stylelint',
-            \ 'coc-snippets',
-            \ 'coc-sql',
-            \ 'coc-tailwindcss',
-            \ 'coc-translator',
-            \ 'coc-yank',
-            \ 'coc-emmet'
-            \ ]
-
-
-
-"setting for eslint and prettier
-if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-    let g:coc_global_extensions += ['coc-prettier']
-endif
-
-if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-    let g:coc_global_extensions += ['coc-eslint']
-endif
-" Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+			\ 'coc-snippets',
+			\ 'coc-actions',
+			\ 'coc-lists',
+			\ 'coc-tsserver',
+			\ 'coc-html',
+			\ 'coc-css',
+			\ 'coc-cssmodules',
+			\ 'coc-explorer',
+			\ 'coc-json',
+			\ 'coc-pairs',
+			\ 'coc-emoji',
+			\ 'coc-floaterm',
+			\ 'coc-sh',
+			\ 'coc-eslint',
+			\ 'coc-highlight',
+			\ 'coc-markdownlint',
+			\ 'coc-stylelint',
+			\ 'coc-snippets',
+			\ 'coc-sql',
+			\ 'coc-tailwindcss',
+			\ 'coc-translator',
+			\ 'coc-yank',
+			\ ]
 
 
 
 
 " Explorer
 let g:coc_explorer_global_presets = {
-            \   'floating': {
-            \      'position': 'floating',
-            \   },
-            \   'floatingLeftside': {
-            \      'position': 'floating',
-            \      'floating-position': 'left-center',
-            \      'floating-width': 30,
-            \   },
-            \   'floatingRightside': {
-            \      'position': 'floating',
-            \      'floating-position': 'right-center',
-            \      'floating-width': 30,
-            \   },
-            \   'simplify': {
-            \     'file.child.template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
-            \   }
-            \ }
-"nmap <silent> <space>e :CocCommand explorer<CR>
-nnoremap <silent> <leader>e :CocCommand explorer<CR>
-" nmap <space>f :CocCommand explorer --preset floatingRightside<CR>
+			\   'floating': {
+			\      'position': 'floating',
+			\   },
+			\   'floatingLeftside': {
+			\      'position': 'floating',
+			\      'floating-position': 'left-center',
+			\      'floating-width': 30,
+			\   },
+			\   'floatingRightside': {
+			\      'position': 'floating',
+			\      'floating-position': 'right-center',
+			\      'floating-width': 30,
+			\   },
+			\   'simplify': {
+			\     'file.child.template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
+			\   }
+			\ }
+nnoremap <space>e :CocCommand explorer<CR>
 autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
 
 
-"start-screen
+"------------------------start-screen---------------------------------
 
 
 let g:startify_custom_header = [
-            \ '       _  __     _         __  ___         __     ___ ',
-            \ '      / |/ /  __(_)_ _    /  |/  /__ _____/ /    |_  |',
-            \ '     /    / |/ / /  ` \  / /|_/ / _ `/ __/ _ \  / __/ ',
-            \ '    /_/|_/|___/_/_/_/_/ /_/  /_/\_,_/\__/_//_/ /____/ ',
-            \]
+			\ '       _  __     _         __  ___         __     ___ ',
+			\ '      / |/ /  __(_)_ _    /  |/  /__ _____/ /    |_  |',
+			\ '     /    / |/ / /  ` \  / /|_/ / _ `/ __/ _ \  / __/ ',
+			\ '    /_/|_/|___/_/_/_/_/ /_/  /_/\_,_/\__/_//_/ /____/ ',
+			\]
 
 let g:startify_session_dir = '~/.config/nvim/session'
-
-
 let g:startify_lists = [
-            \ { 'type': 'files',     'header': ['   Files']                        },
-            \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
-            \ { 'type': 'sessions',  'header': ['   Sessions']                     },
-            \ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
-            \ ]
-
-
+			\ { 'type': 'files',     'header': ['   Files']                        },
+			\ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
+			\ { 'type': 'sessions',  'header': ['   Sessions']                     },
+			\ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
+			\ ]
 let g:startify_session_autoload = 1
 let g:startify_session_delete_buffers = 1
 let g:startify_change_to_vcs_root = 1
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_persistence = 1
-
 let g:webdevicons_enable_startify = 1
 
 function! StartifyEntryFormat()
-    return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+	return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
 
 let g:startify_bookmarks = [
-            \ { 'c': '~/.config/i3/config' },
-            \ { 'i': '~/.config/nvim/init.vim' },
-            \ { 'z': '~/.zshrc' },
-            \ '~/Documents',
-            \ '~/Downloads',
-            \ '~/Pics',
-            \ ]
+			\ { 'c': '~/.config/i3/config' },
+			\ { 'i': '~/.config/nvim/init.vim' },
+			\ { 'z': '~/.zshrc' },
+			\ '~/Documents',
+			\ '~/Downloads',
+			\ '~/Pics',
+			\ ]
 
 let g:startify_enable_special = 0
 
 
 
-"git-guitter
-
+"---------------------------git-guitter-----------------------------
 
 let g:gitgutter_sign_added              = '+'
 let g:gitgutter_sign_modified           = '+'
@@ -346,52 +409,19 @@ let g:sneak#prompt = '🔎 '
 
 
 
-"closetags
-
-" filenames like *.xml, *.html, *.xhtml, ...
-" These are the file extensions where this plugin is enabled.
-"
+"---------------------------closetags------------------------------
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js'
-
-" filenames like *.xml, *.xhtml, ...
-" This will make the list of non-closing tags self-closing in the specified files.
-"
 let g:closetag_xhtml_filenames = '*.xhtml,*.cpp'
-
-" filetypes like xml, html, xhtml, ...
-" These are the file types where this plugin is enabled.
-"
 let g:closetag_filetypes = 'html,xhtml,phtml'
-
-" filetypes like xml, xhtml, ...
-" This will make the list of non-closing tags self-closing in the specified files.
-"
 let g:closetag_xhtml_filetypes = 'xhtml,jsx'
-
-" integer value [0|1]
-" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
-"
 let g:closetag_emptyTags_caseSensitive = 0
 
-" dict
-" Disables auto-close if not in a "valid" region (based on filetype)
-"
-let g:closetag_regions = {
-            \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-            \ 'javascript.jsx': 'jsxRegion',
-            \ }
-
-" Shortcut for closing tags, default is '>'
-"
 let g:closetag_shortcut = '>'
-
-" Add > at current position without closing the current tag, default is ''
-"
 let g:closetag_close_shortcut = '<leader>>'
 
 
 
-"floaterm
+"-----------------------------floaterm-----------------------------
 
 let g:floaterm_keymap_toggle = '<F1>'
 let g:floaterm_keymap_next   = '<F2>'
@@ -413,7 +443,7 @@ tnoremap   <silent>   <F5>   <C-\><C-n>:FloatermKill<CR>
 
 
 
-"WhichKey
+"--------------------------WhichKey---------------------------------
 
 " Map leader to which_key
 nnoremap <silent> <leader> :silent <c-u> :silent WhichKey '<Space>'<CR>
@@ -438,49 +468,49 @@ highlight default link WhichKeyDesc      Function
 " Hide status line
 autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
-            \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+			\| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 
 
 " Single mappings
-let g:which_key_map['/'] = [ ':call Comment()'  , 'comment' ]
+" let g:which_key_map['/'] = [ ':call Comment()'  , 'comment' ]
 let g:which_key_map['.'] = [ ':e $MYVIMRC'                , 'open init' ]
 let g:which_key_map[';'] = [ ':Commands'                  , 'commands' ]
 let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
 let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
-let g:which_key_map['e'] = [ ':CocCommand explorer'       , 'explorer' ]
 let g:which_key_map['f'] = [ ':Files'                     , 'search files' ]
-let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
-let g:which_key_map['v'] = [ '<C-W>v'                     , 'split right']
 
 " Group mappings
 
 " g is for git
 let g:which_key_map.g = {
-            \ 'name' : '+git' ,
-            \ 'a' : [':Git add .'                        , 'add all'],
-            \ 'A' : [':Git add %'                        , 'add current'],
-            \ 'b' : [':Git blame'                        , 'blame'],
-            \ 'B' : [':GBrowse'                          , 'browse'],
-            \ 'c' : [':Git commit'                       , 'commit'],
-            \ 'd' : [':Git diff'                         , 'diff'],
-            \ 'D' : [':Gdiffsplit'                       , 'diff split'],
-            \ 'g' : [':GGrep'                            , 'git grep'],
-            \ 'G' : [':Gstatus'                          , 'status'],
-            \ 'h' : [':GitGutterLineHighlightsToggle'    , 'highlight hunks'],
-            \ 'H' : ['<Plug>(GitGutterPreviewHunk)'      , 'preview hunk'],
-            \ 'j' : ['<Plug>(GitGutterNextHunk)'         , 'next hunk'],
-            \ 'k' : ['<Plug>(GitGutterPrevHunk)'         , 'prev hunk'],
-            \ 'l' : [':Git log'                          , 'log'],
-            \ 'p' : [':Git push'                         , 'push'],
-            \ 'P' : [':Git pull'                         , 'pull'],
-            \ 'r' : [':GRemove'                          , 'remove'],
-            \ 's' : ['<Plug>(GitGutterStageHunk)'        , 'stage hunk'],
-            \ 't' : [':GitGutterSignsToggle'             , 'toggle signs'],
-            \ 'u' : ['<Plug>(GitGutterUndoHunk)'         , 'undo hunk'],
-            \ 'v' : [':GV'                               , 'view commits'],
-            \ 'V' : [':GV!'                              , 'view buffer commits'],
-            \ }
+			\ 'name' : '+git' ,
+			\ 'a' : [':Git add .'                        , 'add all'],
+			\ 'A' : [':Git add %'                        , 'add current'],
+			\ 'b' : [':Git blame'                        , 'blame'],
+			\ 'B' : [':GBrowse'                          , 'browse'],
+			\ 'c' : [':Git commit'                       , 'commit'],
+			\ 'd' : [':Git diff'                         , 'diff'],
+			\ 'D' : [':Gdiffsplit'                       , 'diff split'],
+			\ 'g' : [':GGrep'                            , 'git grep'],
+			\ 'G' : [':Gstatus'                          , 'status'],
+			\ 'h' : [':GitGutterLineHighlightsToggle'    , 'highlight hunks'],
+			\ 'H' : ['<Plug>(GitGutterPreviewHunk)'      , 'preview hunk'],
+			\ 'j' : ['<Plug>(GitGutterNextHunk)'         , 'next hunk'],
+			\ 'k' : ['<Plug>(GitGutterPrevHunk)'         , 'prev hunk'],
+			\ 'l' : [':Git log'                          , 'log'],
+			\ 'p' : [':Git push'                         , 'push'],
+			\ 'P' : [':Git pull'                         , 'pull'],
+			\ 'r' : [':GRemove'                          , 'remove'],
+			\ 's' : ['<Plug>(GitGutterStageHunk)'        , 'stage hunk'],
+			\ 't' : [':GitGutterSignsToggle'             , 'toggle signs'],
+			\ 'u' : ['<Plug>(GitGutterUndoHunk)'         , 'undo hunk'],
+			\ 'v' : [':GV'                               , 'view commits'],
+			\ 'V' : [':GV!'                              , 'view buffer commits'],
+			\ }
 call which_key#register('<Space>', "g:which_key_map")
+
+
+"----------------Rainbow------------------------------
 
 
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
@@ -489,37 +519,35 @@ au BufRead,BufNewFile *.scss set filetype=scss.css
 autocmd FileType scss setl iskeyword+=@-@
 
 
-
-
 let g:rainbow_conf = {
-            \ 'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-            \ 'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-            \ 'guis': [''],
-            \ 'cterms': [''],
-            \ 'operators': '_,_',
-            \ 'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-            \ 'separately': {
-            \   '*': {},
-            \   'markdown': {
-            \     'parentheses_options': 'containedin=markdownCode contained',
-            \   },
-            \   'lisp': {
-            \     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3']
-            \   },
-            \   'haskell': {
-            \     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\v\{\ze[^-]/ end=/}/ fold'],
-            \   },
-            \   'vim': {
-            \     'parentheses_options': 'containedin=vimFuncBody',
-            \   },
-            \   'perl': {
-            \     'syn_name_prefix': 'perlBlockFoldRainbow',
-            \   },
-            \   'stylus': {
-            \     'parentheses': ['start=/{/ end=/}/ fold contains=@colorableGroup'],
-            \   },
-            \ },
-            \}
+			\ 'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+			\ 'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+			\ 'guis': [''],
+			\ 'cterms': [''],
+			\ 'operators': '_,_',
+			\ 'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+			\ 'separately': {
+			\   '*': {},
+			\   'markdown': {
+			\     'parentheses_options': 'containedin=markdownCode contained',
+			\   },
+			\   'lisp': {
+			\     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3']
+			\   },
+			\   'haskell': {
+			\     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\v\{\ze[^-]/ end=/}/ fold'],
+			\   },
+			\   'vim': {
+			\     'parentheses_options': 'containedin=vimFuncBody',
+			\   },
+			\   'perl': {
+			\     'syn_name_prefix': 'perlBlockFoldRainbow',
+			\   },
+			\   'stylus': {
+			\     'parentheses': ['start=/{/ end=/}/ fold contains=@colorableGroup'],
+			\   },
+			\ },
+			\}
 
 
 " Blamer (linke gitlens)
@@ -530,55 +558,55 @@ let g:blamer_prefix = ' > '
 
 
 
-" auto format
+" -----------------auto format && prettier----------------
 
-noremap <F6> :Autoformat<CR>
-au BufWrite * :Autoformat
+noremap <F6> :Autoformat <CR>
+" au BufWrite * :Autoformat
 
 
 " when running at every change you may want to disable quickfix
-"let g:prettier#quickfix_enabled = 0
+let g:prettier#quickfix_enabled = 0
 
-" autocmd TextChanged *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
-" InsertLeave
+autocmd TextChanged *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html,*.cpp PrettierAsync
 
+" noremap <F7> :PrettierAsync <CR>
 
-" Max line length that prettier will wrap on: a number or 'auto' (use
-" textwidth).
-" default: 'auto'
 let g:prettier#config#print_width = 'auto'
-
-" number of spaces per indentation level: a number or 'auto' (use
-" softtabstop)
-" default: 'auto'
 let g:prettier#config#tab_width = 'auto'
-
-" use tabs instead of spaces: true, false, or auto (use the expandtab setting).
-" default: 'auto'
 let g:prettier#config#use_tabs = 'auto'
-
-" flow|babylon|typescript|css|less|scss|json|graphql|markdown or empty string
-" (let prettier choose).
-" default: ''
 let g:prettier#config#parser = ''
-
-" cli-override|file-override|prefer-file
-" default: 'file-override'
 let g:prettier#config#config_precedence = 'file-override'
-
-" always|never|preserve
-" default: 'preserve'
 let g:prettier#config#prose_wrap = 'preserve'
-
-" css|strict|ignore
-" default: 'css'
 let g:prettier#config#html_whitespace_sensitivity = 'css'
-
-" false|true
-" default: 'false'
 let g:prettier#config#require_pragma = 'false'
-
-" Define the flavor of line endings
-" lf|crlf|cr|all
-" defaut: 'lf'
 let g:prettier#config#end_of_line = get(g:, 'prettier#config#end_of_line', 'lf')
+
+
+if executable('ag')
+	set grepprg=ag\ --nogroup\ --nocolor
+	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+	let g:ctrlp_use_caching = 0
+endif
+
+
+
+"--------------------------One Dark--------------------
+if (has("autocmd"))
+	augroup colorextend
+		autocmd!
+		" Make `Function`s boldn GUI mode
+		autocmd ColorScheme * call onedark#extend_highlight("Function", { "gui": "bold" })
+		" Override the `Statement` foreground color in 256-color mode
+		autocmd ColorScheme * call onedark#extend_highlight("Statement", { "fg": { "cterm": 128 } })
+		" Override the `Identifier` background color in GUI mode
+		autocmd ColorScheme * call onedark#extend_highlight("Identifier", { "bg": { "gui": "#000000" } })
+	augroup END
+endif
+
+
+hi Comment cterm=italic
+let g:onedark_hide_endofbuffer=1
+let g:onedark_terminal_italics=0
+let g:onedark_termcolors=256
+
+
