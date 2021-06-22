@@ -7,8 +7,8 @@
 
 " Always source these
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-	silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
@@ -28,7 +28,7 @@ Plug 'alvan/vim-closetag'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
-Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
+" Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'rbgrouleff/bclose.vim'
@@ -44,6 +44,7 @@ Plug 'APZelos/blamer.nvim'
 Plug 'junegunn/gv.vim'
 
 
+Plug 'gregsexton/matchtag'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vim-which-key'
 Plug 'neomake/neomake'
@@ -54,8 +55,9 @@ Plug 'pangloss/vim-javascript' "JS highlighting
 Plug 'jelera/vim-javascript-syntax'
 Plug 'honza/vim-snippets'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'mattn/emmet-vim'
+
+Plug 'leafOfTree/vim-vue-plugin'
 
 Plug 'ap/vim-css-color'
 Plug 'cakebaker/scss-syntax.vim'
@@ -67,6 +69,18 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'dracula/vim', { 'as': 'dracula' }
 " Plug 'kyoz/purify', { 'rtp': 'vim' }
 Plug 'joshdick/onedark.vim'
+
+"rest-client
+Plug 'diepm/vim-rest-console'
+
+"Pluggin for php
+
+Plug 'StanAngeloff/php.vim'
+Plug 'stephpy/vim-php-cs-fixer'
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'phpactor/ncm2-phpactor'
 call plug#end()
 
 
@@ -78,19 +92,19 @@ set mouse=a    "bat con chuot"
 set cursorline
 hi CursorLineNR cterm=bold
 augroup CLNRSet
-	autocmd! ColorScheme * hi CursorLine ctermbg=black
+  autocmd! ColorScheme * hi CursorLine ctermbg=black
 augroup END number
 set guicursor+=n-v-c:blinkon5
 
 if &term =~ "xterm\\|rxvt"
-	" use an orange cursor in insert mode
-	let &t_SI = "\<Esc>]12;orange\x7"
-	" use a red cursor otherwise
-	let &t_EI = "\<Esc>]12;red\x7"
-	silent !echo -ne "\033]12;red\007"
-	" reset cursor when vim exits
-	autocmd VimLeave * silent !echo -ne "\033]112\007"
-	" use \003]12;gray\007 for gnome-terminal and rxvt up to version 9.21
+  " use an orange cursor in insert mode
+  let &t_SI = "\<Esc>]12;orange\x7"
+  " use a red cursor otherwise
+  let &t_EI = "\<Esc>]12;red\x7"
+  silent !echo -ne "\033]12;red\007"
+  " reset cursor when vim exits
+  autocmd VimLeave * silent !echo -ne "\033]112\007"
+  " use \003]12;gray\007 for gnome-terminal and rxvt up to version 9.21
 endif
 
 
@@ -133,7 +147,7 @@ syntax on
 set relativenumber
 set colorcolumn=0
 
-
+"--------------- custom short cut----------------------
 nnoremap <space>n :set nohlsearch!<CR>
 nnoremap <Down>  :resize -2<CR>
 nnoremap <Left>  :vertical resize +2<CR>
@@ -190,8 +204,8 @@ let g:javascript_enable_domhtmlcss = 1
 
 "vim-javascript
 augroup vimrc-javascript
-	autocmd!
-	autocmd filetype javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4 smartindent
+  autocmd!
+  autocmd filetype javascript set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent
 augroup end
 
 
@@ -204,37 +218,37 @@ let g:airline#extensions#virtualenv#enabled = 1
 
 
 if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
+  let g:airline_symbols = {}
 endif
 
 if !exists('g:airline_powerline_fonts')
-	let g:airline#extensions#tabline#left_sep = ' '
-	let g:airline#extensions#tabline#left_alt_sep = '|'
-	let g:airline_left_sep          = '▶'
-	let g:airline_left_alt_sep      = '»'
-	let g:airline_right_sep         = '◀'
-	let g:airline_right_alt_sep     = '«'
-	let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-	let g:airline#extensions#readonly#symbol   = '⊘'
-	let g:airline#extensions#linecolumn#prefix = '¶'
-	let g:airline#extensions#paste#symbol      = 'ρ'
-	let g:airline_symbols.linenr    = '␊'
-	let g:airline_symbols.branch    = '⎇'
-	let g:airline_symbols.paste     = 'ρ'
-	let g:airline_symbols.paste     = 'þ'
-	let g:airline_symbols.paste     = '∥'
-	let g:airline_symbols.whitespace = 'ξ'
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'ξ'
 else
-	let g:airline#extensions#tabline#left_sep = ''
-	let g:airline#extensions#tabline#left_alt_sep = ''
-	" powerline symbols
-	let g:airline_left_sep = ''
-	let g:airline_left_alt_sep = ''
-	let g:airline_right_sep = ''
-	let g:airline_right_alt_sep = ''
-	let g:airline_symbols.branch = ''
-	let g:airline_symbols.readonly = ''
-	let g:airline_symbols.linenr = ''
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
 endif
 
 "vim-airline
@@ -256,19 +270,19 @@ noremap ; :Buffers<CR>
 let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
 
 let g:fzf_colors =
-			\ { 'fg':      ['fg', 'Normal'],
-			\ 'bg':      ['bg', 'Normal'],
-			\ 'hl':      ['fg', 'Comment'],
-			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-			\ 'hl+':     ['fg', 'Statement'],
-			\ 'info':    ['fg', 'PreProc'],
-			\ 'border':  ['fg', 'Ignore'],
-			\ 'prompt':  ['fg', 'Conditional'],
-			\ 'pointer': ['fg', 'Exception'],
-			\ 'marker':  ['fg', 'Keyword'],
-			\ 'spinner': ['fg', 'Label'],
-			\ 'header':  ['fg', 'Comment'] }
+      \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
 
 
 
@@ -278,11 +292,11 @@ autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 "----------------------------vim commentary--------------------
 function! Comment()
-	if (mode() == "n" )
-		execute "Commentary"
-	else
-		execute "'<,'>Commentary"
-	endif
+  if (mode() == "n" )
+    execute "Commentary"
+  else
+    execute "'<,'>Commentary"
+  endif
 endfunction
 noremap <silent> <leader>/ :call Comment() <CR>
 
@@ -291,52 +305,51 @@ noremap <silent> <leader>/ :call Comment() <CR>
 
 "----------------------------COC--------------------------------
 let g:coc_global_extensions = [
-			\ 'coc-snippets',
-			\ 'coc-actions',
-			\ 'coc-lists',
-			\ 'coc-tsserver',
-			\ 'coc-html',
-			\ 'coc-css',
-			\ 'coc-cssmodules',
-			\ 'coc-explorer',
-			\ 'coc-json',
-			\ 'coc-pairs',
-			\ 'coc-emoji',
-			\ 'coc-floaterm',
-			\ 'coc-sh',
-			\ 'coc-eslint',
-			\ 'coc-highlight',
-			\ 'coc-markdownlint',
-			\ 'coc-stylelint',
-			\ 'coc-snippets',
-			\ 'coc-sql',
-			\ 'coc-tailwindcss',
-			\ 'coc-translator',
-			\ 'coc-yank',
-			\ ]
+      \ 'coc-snippets',
+      \ 'coc-actions',
+      \ 'coc-lists',
+      \ 'coc-tsserver',
+      \ 'coc-html',
+      \ 'coc-css',
+      \ 'coc-cssmodules',
+      \ 'coc-explorer',
+      \ 'coc-json',
+      \ 'coc-pairs',
+      \ 'coc-emoji',
+      \ 'coc-floaterm',
+      \ 'coc-sh',
+      \ 'coc-eslint',
+      \ 'coc-markdownlint',
+      \ 'coc-stylelint',
+      \ 'coc-snippets',
+      \ 'coc-sql',
+      \ 'coc-tailwindcss',
+      \ 'coc-translator',
+      \ 'coc-yank',
+      \ ]
 
 
 
 
-" Explorer
+"------------------------ Explorer-----------------------------------
 let g:coc_explorer_global_presets = {
-			\   'floating': {
-			\      'position': 'floating',
-			\   },
-			\   'floatingLeftside': {
-			\      'position': 'floating',
-			\      'floating-position': 'left-center',
-			\      'floating-width': 30,
-			\   },
-			\   'floatingRightside': {
-			\      'position': 'floating',
-			\      'floating-position': 'right-center',
-			\      'floating-width': 30,
-			\   },
-			\   'simplify': {
-			\     'file.child.template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
-			\   }
-			\ }
+      \   'floating': {
+      \      'position': 'floating',
+      \   },
+      \   'floatingLeftside': {
+      \      'position': 'floating',
+      \      'floating-position': 'left-center',
+      \      'floating-width': 30,
+      \   },
+      \   'floatingRightside': {
+      \      'position': 'floating',
+      \      'floating-position': 'right-center',
+      \      'floating-width': 30,
+      \   },
+      \   'simplify': {
+      \     'file.child.template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
+      \   }
+      \ }
 nnoremap <space>e :CocCommand explorer<CR>
 autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
@@ -346,19 +359,19 @@ autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | end
 
 
 let g:startify_custom_header = [
-			\ '       _  __     _         __  ___         __     ___ ',
-			\ '      / |/ /  __(_)_ _    /  |/  /__ _____/ /    |_  |',
-			\ '     /    / |/ / /  ` \  / /|_/ / _ `/ __/ _ \  / __/ ',
-			\ '    /_/|_/|___/_/_/_/_/ /_/  /_/\_,_/\__/_//_/ /____/ ',
-			\]
+      \ '       _  __     _         __  ___         __     ___ ',
+      \ '      / |/ /  __(_)_ _    /  |/  /__ _____/ /    |_  |',
+      \ '     /    / |/ / /  ` \  / /|_/ / _ `/ __/ _ \  / __/ ',
+      \ '    /_/|_/|___/_/_/_/_/ /_/  /_/\_,_/\__/_//_/ /____/ ',
+      \]
 
 let g:startify_session_dir = '~/.config/nvim/session'
 let g:startify_lists = [
-			\ { 'type': 'files',     'header': ['   Files']                        },
-			\ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
-			\ { 'type': 'sessions',  'header': ['   Sessions']                     },
-			\ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
-			\ ]
+      \ { 'type': 'files',     'header': ['   Files']                        },
+      \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
+      \ { 'type': 'sessions',  'header': ['   Sessions']                     },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
+      \ ]
 let g:startify_session_autoload = 1
 let g:startify_session_delete_buffers = 1
 let g:startify_change_to_vcs_root = 1
@@ -367,17 +380,17 @@ let g:startify_session_persistence = 1
 let g:webdevicons_enable_startify = 1
 
 function! StartifyEntryFormat()
-	return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+  return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
 
 let g:startify_bookmarks = [
-			\ { 'c': '~/.config/i3/config' },
-			\ { 'i': '~/.config/nvim/init.vim' },
-			\ { 'z': '~/.zshrc' },
-			\ '~/Documents',
-			\ '~/Downloads',
-			\ '~/Pics',
-			\ ]
+      \ { 'c': '~/.config/i3/config' },
+      \ { 'i': '~/.config/nvim/init.vim' },
+      \ { 'z': '~/.zshrc' },
+      \ '~/Documents',
+      \ '~/Downloads',
+      \ '~/Pics',
+      \ ]
 
 let g:startify_enable_special = 0
 
@@ -410,14 +423,14 @@ let g:sneak#prompt = '🔎 '
 
 
 "---------------------------closetags------------------------------
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js'
-let g:closetag_xhtml_filenames = '*.xhtml,*.cpp'
-let g:closetag_filetypes = 'html,xhtml,phtml'
-let g:closetag_xhtml_filetypes = 'xhtml,jsx'
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js, *.vue'
+" let g:closetag_xhtml_filenames = '*.xhtml,*.cpp'
+" let g:closetag_filetypes = 'html,xhtml,phtml'
+" let g:closetag_xhtml_filetypes = 'xhtml,jsx'
 let g:closetag_emptyTags_caseSensitive = 0
 
 let g:closetag_shortcut = '>'
-let g:closetag_close_shortcut = '<leader>>'
+" let g:closetag_close_shortcut = '<leader>>'
 
 
 
@@ -468,11 +481,9 @@ highlight default link WhichKeyDesc      Function
 " Hide status line
 autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
-			\| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+      \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 
 
-" Single mappings
-" let g:which_key_map['/'] = [ ':call Comment()'  , 'comment' ]
 let g:which_key_map['.'] = [ ':e $MYVIMRC'                , 'open init' ]
 let g:which_key_map[';'] = [ ':Commands'                  , 'commands' ]
 let g:which_key_map[','] = [ 'Startify'                   , 'start screen' ]
@@ -483,30 +494,30 @@ let g:which_key_map['f'] = [ ':Files'                     , 'search files' ]
 
 " g is for git
 let g:which_key_map.g = {
-			\ 'name' : '+git' ,
-			\ 'a' : [':Git add .'                        , 'add all'],
-			\ 'A' : [':Git add %'                        , 'add current'],
-			\ 'b' : [':Git blame'                        , 'blame'],
-			\ 'B' : [':GBrowse'                          , 'browse'],
-			\ 'c' : [':Git commit'                       , 'commit'],
-			\ 'd' : [':Git diff'                         , 'diff'],
-			\ 'D' : [':Gdiffsplit'                       , 'diff split'],
-			\ 'g' : [':GGrep'                            , 'git grep'],
-			\ 'G' : [':Gstatus'                          , 'status'],
-			\ 'h' : [':GitGutterLineHighlightsToggle'    , 'highlight hunks'],
-			\ 'H' : ['<Plug>(GitGutterPreviewHunk)'      , 'preview hunk'],
-			\ 'j' : ['<Plug>(GitGutterNextHunk)'         , 'next hunk'],
-			\ 'k' : ['<Plug>(GitGutterPrevHunk)'         , 'prev hunk'],
-			\ 'l' : [':Git log'                          , 'log'],
-			\ 'p' : [':Git push'                         , 'push'],
-			\ 'P' : [':Git pull'                         , 'pull'],
-			\ 'r' : [':GRemove'                          , 'remove'],
-			\ 's' : ['<Plug>(GitGutterStageHunk)'        , 'stage hunk'],
-			\ 't' : [':GitGutterSignsToggle'             , 'toggle signs'],
-			\ 'u' : ['<Plug>(GitGutterUndoHunk)'         , 'undo hunk'],
-			\ 'v' : [':GV'                               , 'view commits'],
-			\ 'V' : [':GV!'                              , 'view buffer commits'],
-			\ }
+      \ 'name' : '+git' ,
+      \ 'a' : [':Git add .'                        , 'add all'],
+      \ 'A' : [':Git add %'                        , 'add current'],
+      \ 'b' : [':Git blame'                        , 'blame'],
+      \ 'B' : [':GBrowse'                          , 'browse'],
+      \ 'c' : [':Git commit'                       , 'commit'],
+      \ 'd' : [':Git diff'                         , 'diff'],
+      \ 'D' : [':Gdiffsplit'                       , 'diff split'],
+      \ 'g' : [':GGrep'                            , 'git grep'],
+      \ 'G' : [':Gstatus'                          , 'status'],
+      \ 'h' : [':GitGutterLineHighlightsToggle'    , 'highlight hunks'],
+      \ 'H' : ['<Plug>(GitGutterPreviewHunk)'      , 'preview hunk'],
+      \ 'j' : ['<Plug>(GitGutterNextHunk)'         , 'next hunk'],
+      \ 'k' : ['<Plug>(GitGutterPrevHunk)'         , 'prev hunk'],
+      \ 'l' : [':Git log'                          , 'log'],
+      \ 'p' : [':Git push'                         , 'push'],
+      \ 'P' : [':Git pull'                         , 'pull'],
+      \ 'r' : [':GRemove'                          , 'remove'],
+      \ 's' : ['<Plug>(GitGutterStageHunk)'        , 'stage hunk'],
+      \ 't' : [':GitGutterSignsToggle'             , 'toggle signs'],
+      \ 'u' : ['<Plug>(GitGutterUndoHunk)'         , 'undo hunk'],
+      \ 'v' : [':GV'                               , 'view commits'],
+      \ 'V' : [':GV!'                              , 'view buffer commits'],
+      \ }
 call which_key#register('<Space>', "g:which_key_map")
 
 
@@ -514,43 +525,40 @@ call which_key#register('<Space>', "g:which_key_map")
 
 
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
-
 au BufRead,BufNewFile *.scss set filetype=scss.css
 autocmd FileType scss setl iskeyword+=@-@
-
-
 let g:rainbow_conf = {
-			\ 'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-			\ 'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-			\ 'guis': [''],
-			\ 'cterms': [''],
-			\ 'operators': '_,_',
-			\ 'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-			\ 'separately': {
-			\   '*': {},
-			\   'markdown': {
-			\     'parentheses_options': 'containedin=markdownCode contained',
-			\   },
-			\   'lisp': {
-			\     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3']
-			\   },
-			\   'haskell': {
-			\     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\v\{\ze[^-]/ end=/}/ fold'],
-			\   },
-			\   'vim': {
-			\     'parentheses_options': 'containedin=vimFuncBody',
-			\   },
-			\   'perl': {
-			\     'syn_name_prefix': 'perlBlockFoldRainbow',
-			\   },
-			\   'stylus': {
-			\     'parentheses': ['start=/{/ end=/}/ fold contains=@colorableGroup'],
-			\   },
-			\ },
-			\}
+      \ 'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+      \ 'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+      \ 'guis': [''],
+      \ 'cterms': [''],
+      \ 'operators': '_,_',
+      \ 'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      \ 'separately': {
+      \   '*': {},
+      \   'markdown': {
+      \     'parentheses_options': 'containedin=markdownCode contained',
+      \   },
+      \   'lisp': {
+      \     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3']
+      \   },
+      \   'haskell': {
+      \     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/\v\{\ze[^-]/ end=/}/ fold'],
+      \   },
+      \   'vim': {
+      \     'parentheses_options': 'containedin=vimFuncBody',
+      \   },
+      \   'perl': {
+      \     'syn_name_prefix': 'perlBlockFoldRainbow',
+      \   },
+      \   'stylus': {
+      \     'parentheses': ['start=/{/ end=/}/ fold contains=@colorableGroup'],
+      \   },
+      \ },
+      \}
 
 
-" Blamer (linke gitlens)
+"------------------ Blamer (linke gitlens)------------------
 let g:blamer_enabled = 1
 let g:blamer_delay = 500
 let g:blamer_prefix = ' > '
@@ -561,17 +569,22 @@ let g:blamer_prefix = ' > '
 " -----------------auto format && prettier----------------
 
 noremap <F6> :Autoformat <CR>
-" au BufWrite * :Autoformat
+"auto format when saved file
+au BufWrite * :Autoformat
+
+
+let g:formatters_vue = ['eslint_local', 'stylelint']
+let g:run_all_formatters_vue = 1
 
 
 " when running at every change you may want to disable quickfix
 let g:prettier#quickfix_enabled = 0
 
-autocmd TextChanged *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html,*.cpp PrettierAsync
+" autocmd TextChanged *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html,*.cpp PrettierAsync
 
 " noremap <F7> :PrettierAsync <CR>
 
-let g:prettier#config#print_width = 'auto'
+let g:prettier#config#print_width = '100'
 let g:prettier#config#tab_width = 'auto'
 let g:prettier#config#use_tabs = 'auto'
 let g:prettier#config#parser = ''
@@ -579,28 +592,31 @@ let g:prettier#config#config_precedence = 'file-override'
 let g:prettier#config#prose_wrap = 'preserve'
 let g:prettier#config#html_whitespace_sensitivity = 'css'
 let g:prettier#config#require_pragma = 'false'
-let g:prettier#config#end_of_line = get(g:, 'prettier#config#end_of_line', 'lf')
+let g:prettier#config#end_of_line = get(g:, 'prettier#config#end_of_line', 'crlf')
+"----------------------------------------------------
+
+
 
 
 if executable('ag')
-	set grepprg=ag\ --nogroup\ --nocolor
-	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-	let g:ctrlp_use_caching = 0
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
 endif
 
 
 
-"--------------------------One Dark--------------------
+"--------------------------One Dark themes config--------------------
 if (has("autocmd"))
-	augroup colorextend
-		autocmd!
-		" Make `Function`s boldn GUI mode
-		autocmd ColorScheme * call onedark#extend_highlight("Function", { "gui": "bold" })
-		" Override the `Statement` foreground color in 256-color mode
-		autocmd ColorScheme * call onedark#extend_highlight("Statement", { "fg": { "cterm": 128 } })
-		" Override the `Identifier` background color in GUI mode
-		autocmd ColorScheme * call onedark#extend_highlight("Identifier", { "bg": { "gui": "#000000" } })
-	augroup END
+  augroup colorextend
+    autocmd!
+    " Make `Function`s boldn GUI mode
+    autocmd ColorScheme * call onedark#extend_highlight("Function", { "gui": "bold" })
+    " Override the `Statement` foreground color in 256-color mode
+    autocmd ColorScheme * call onedark#extend_highlight("Statement", { "fg": { "cterm": 128 } })
+    " Override the `Identifier` background color in GUI mode
+    autocmd ColorScheme * call onedark#extend_highlight("Identifier", { "bg": { "gui": "#000000" } })
+  augroup END
 endif
 
 
@@ -610,3 +626,46 @@ let g:onedark_terminal_italics=0
 let g:onedark_termcolors=256
 
 
+let g:vrc_split_request_body = 0
+set ft=rest
+let g:vrc_curl_opts = {
+      \ '--connect-timeout' : 10,
+      \ '-b': '/path/to/cookie',
+      \ '-c': '/path/to/cookie',
+      \ '-L': '',
+      \ '-i': '',
+      \ '--max-time': 60,
+      \ '--ipv4': '',
+      \ '-k': '',
+      \}
+
+
+
+"-------------Vue config
+let g:vim_vue_plugin_config = {
+      \'syntax': {
+      \   'template': ['html'],
+      \   'script': ['javascript'],
+      \   'style': ['css', 'scss'],
+      \   'docs': 'markdown',
+      \},
+      \'full_syntax': [],
+      \'initial_indent': [],
+      \'attribute': 0,
+      \'keyword': 0,
+      \'foldexpr': 0,
+      \'debug': 0,
+      \}
+
+"---------------bash language server-------------------
+
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+
+if executable('bash-language-server')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'bash-language-server',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+        \ 'allowlist': ['sh'],
+        \ })
+endif
